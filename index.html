@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AutoDosar îți organizează istoricul mașinii: revizii, alimentări, documente, costuri, drumuri și rapoarte, toate într-un singur loc.">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:title" content="AutoDosar — Istoricul mașinii tale, mereu la zi">
+  <meta property="og:description" content="Toate informațiile importante despre mașina ta, organizate simplu și profesionist.">
+  <meta property="og:type" content="website">
+  <title>AutoDosar — Istoricul mașinii tale, mereu la zi</title>
+  <style>
+    :root {
+      --blue: #1677ff;
+      --blue-dark: #0860dc;
+      --blue-soft: #eef6ff;
+      --ink: #111827;
+      --muted: #667085;
+      --line: #e8edf4;
+      --white: #fff;
+      --shadow: 0 18px 55px rgba(24, 53, 92, .09);
+      --shadow-hover: 0 24px 64px rgba(22, 119, 255, .14);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--white);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 780px;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 75% 16%, rgba(22,119,255,.10), transparent 28%),
+        radial-gradient(circle at 15% 8%, rgba(22,119,255,.06), transparent 25%);
+      z-index: -1;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .container { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+    .section { padding: 104px 0; }
+    .section-soft { background: #f8fbff; border-block: 1px solid #edf3fa; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--blue); background: var(--blue-soft); border: 1px solid #dbeaff;
+      padding: 7px 12px; border-radius: 999px; font-size: 13px; font-weight: 750;
+      letter-spacing: .02em;
+    }
+    .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 4px rgba(22,119,255,.10); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 18px; font-size: clamp(54px, 8vw, 88px); line-height: .98; letter-spacing: -.065em; }
+    h2 { margin-bottom: 16px; font-size: clamp(34px, 5vw, 52px); line-height: 1.08; letter-spacing: -.045em; }
+    h3 { font-size: 19px; letter-spacing: -.02em; line-height: 1.3; }
+    .section-head { max-width: 700px; margin-bottom: 48px; }
+    .section-head.center { margin-inline: auto; text-align: center; }
+    .section-head p { color: var(--muted); font-size: 18px; }
+
+    .nav-wrap {
+      position: sticky; top: 0; z-index: 50; padding: 14px 0;
+      background: rgba(255,255,255,.78); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(232,237,244,.75);
+    }
+    nav { display: flex; align-items: center; justify-content: space-between; min-height: 48px; }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 800; font-size: 19px; letter-spacing: -.025em; }
+    .logo {
+      display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px;
+      color: #fff; background: linear-gradient(145deg, #2684ff, #0860dc); box-shadow: 0 8px 22px rgba(22,119,255,.24);
+    }
+    .logo svg { width: 22px; height: 22px; }
+    .nav-links { display: flex; align-items: center; gap: 30px; color: #475467; font-size: 14px; font-weight: 650; }
+    .nav-links a { transition: color .2s ease; }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-cta { padding: 10px 17px; color: #fff !important; background: var(--blue); border-radius: 12px; box-shadow: 0 8px 18px rgba(22,119,255,.18); }
+
+    .hero { padding: 118px 0 108px; text-align: center; overflow: hidden; }
+    .hero-inner { max-width: 940px; margin: auto; }
+    .hero .eyebrow { margin-bottom: 28px; }
+    .hero-subtitle { margin-bottom: 18px; font-size: clamp(26px, 4vw, 40px); font-weight: 720; letter-spacing: -.045em; color: #344054; }
+    .hero-description { max-width: 760px; margin: 0 auto 36px; color: var(--muted); font-size: clamp(17px, 2vw, 20px); }
+    .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 50px;
+      padding: 0 20px; border: 1px solid var(--line); border-radius: 14px; background: #fff;
+      color: #344054; font: inherit; font-size: 14px; font-weight: 720; cursor: pointer;
+      box-shadow: 0 5px 16px rgba(16,24,40,.04); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .btn:not(:disabled):hover { transform: translateY(-2px); border-color: #c8dcf7; box-shadow: 0 10px 28px rgba(16,24,40,.09); }
+    .btn-primary { color: #fff; background: var(--blue); border-color: var(--blue); box-shadow: 0 10px 26px rgba(22,119,255,.24); }
+    .btn:disabled { cursor: not-allowed; opacity: .78; color: #fff; background: linear-gradient(135deg, #1677ff, #4b95ff); border-color: transparent; }
+    .hero-preview {
+      position: relative; max-width: 900px; margin: 78px auto 0; padding: 18px;
+      background: rgba(255,255,255,.72); border: 1px solid rgba(216,229,246,.9); border-radius: 32px;
+      box-shadow: 0 34px 100px rgba(40,75,120,.16); backdrop-filter: blur(10px);
+    }
+    .dashboard { display: grid; grid-template-columns: 190px 1fr; min-height: 340px; overflow: hidden; background: #fff; border-radius: 19px; border: 1px solid #edf1f6; text-align: left; }
+    .dash-side { padding: 28px 20px; background: #f8fbff; border-right: 1px solid #edf1f6; }
+    .dash-pill { height: 11px; margin-bottom: 17px; border-radius: 99px; background: #e2eaf3; }
+    .dash-pill.active { width: 88%; background: #bcd9ff; }
+    .dash-main { padding: 34px; }
+    .dash-title { width: 34%; height: 18px; margin-bottom: 28px; background: #d8e3ef; border-radius: 99px; }
+    .dash-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .dash-card { height: 105px; padding: 18px; border: 1px solid #e9eff6; border-radius: 16px; box-shadow: 0 8px 20px rgba(16,24,40,.04); }
+    .dash-card::before { content: ""; display: block; width: 32px; height: 32px; margin-bottom: 13px; border-radius: 10px; background: var(--blue-soft); }
+    .dash-card::after { content: ""; display: block; width: 62%; height: 8px; border-radius: 99px; background: #dfe7f0; }
+    .dash-chart { position: relative; height: 100px; margin-top: 22px; overflow: hidden; border-radius: 16px; background: linear-gradient(180deg, #f3f8ff, #fff); border: 1px solid #edf2f8; }
+    .dash-chart svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .feature-card {
+      padding: 29px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff;
+      box-shadow: 0 8px 26px rgba(30,60,100,.045); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .feature-card:hover { transform: translateY(-6px); border-color: #d7e8ff; box-shadow: var(--shadow-hover); }
+    .icon {
+      display: grid; place-items: center; width: 48px; height: 48px; margin-bottom: 22px; border-radius: 15px;
+      color: var(--blue); background: var(--blue-soft); border: 1px solid #dcecff;
+    }
+    .icon svg { width: 24px; height: 24px; }
+    .feature-card h3 { margin-bottom: 8px; }
+    .feature-card p { margin: 0; color: var(--muted); font-size: 15px; }
+
+    .why-grid { display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: 78px; }
+    .why-visual { position: relative; min-height: 470px; padding: 30px; border-radius: 34px; background: linear-gradient(145deg, #eaf4ff, #f8fbff); border: 1px solid #dcecff; }
+    .phone {
+      width: 245px; min-height: 410px; margin: auto; padding: 14px; border-radius: 34px; background: #182131;
+      box-shadow: 0 30px 60px rgba(25,50,80,.24); transform: rotate(-3deg);
+    }
+    .phone-screen { min-height: 382px; padding: 28px 16px; border-radius: 23px; background: #fff; }
+    .phone-bar { width: 45%; height: 8px; margin: 0 auto 28px; border-radius: 99px; background: #dfe6ee; }
+    .phone-car { display: grid; place-items: center; height: 115px; margin-bottom: 18px; color: var(--blue); border-radius: 18px; background: var(--blue-soft); }
+    .phone-car svg { width: 72px; height: 72px; }
+    .phone-row { height: 47px; margin-top: 11px; border-radius: 13px; background: #f4f7fb; border: 1px solid #edf1f6; }
+    .float-card { position: absolute; padding: 16px 18px; border-radius: 16px; background: #fff; border: 1px solid #e6edf6; box-shadow: var(--shadow); font-size: 13px; font-weight: 750; }
+    .float-card.one { right: 22px; top: 85px; }
+    .float-card.two { left: 20px; bottom: 70px; }
+    .float-card span { display: block; margin-top: 3px; color: var(--blue); font-size: 17px; }
+    .why-list { display: grid; gap: 10px; margin-top: 32px; }
+    .why-item { display: flex; gap: 17px; padding: 19px; border-radius: 18px; transition: background .2s ease; }
+    .why-item:hover { background: #f8fbff; }
+    .check { flex: 0 0 27px; display: grid; place-items: center; width: 27px; height: 27px; color: #fff; background: var(--blue); border-radius: 50%; box-shadow: 0 7px 15px rgba(22,119,255,.2); }
+    .check svg { width: 15px; }
+    .why-item h3 { margin: 1px 0 5px; font-size: 17px; }
+    .why-item p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .screens-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .shot { position: relative; aspect-ratio: 9 / 18; overflow: hidden; border: 1px solid #e1eaf5; border-radius: 28px; background: linear-gradient(150deg, #eff6ff, #f9fbfe); box-shadow: var(--shadow); transition: transform .3s ease, box-shadow .3s ease; }
+    .shot:hover { transform: translateY(-8px) scale(1.01); box-shadow: var(--shadow-hover); }
+    .shot img { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; object-fit: cover; }
+    .shot img.is-missing { display: none; }
+    .placeholder { position: absolute; inset: 0; display: grid; place-items: center; padding: 30px; text-align: center; }
+    .placeholder-icon { display: grid; place-items: center; width: 66px; height: 66px; margin: 0 auto 18px; border-radius: 20px; color: var(--blue); background: #fff; box-shadow: 0 12px 30px rgba(22,119,255,.12); }
+    .placeholder strong { display: block; margin-bottom: 5px; }
+    .placeholder small { color: var(--muted); }
+
+    .about-card { position: relative; overflow: hidden; padding: 68px; border-radius: 34px; color: #fff; background: #111d2f; box-shadow: 0 30px 70px rgba(17,29,47,.20); }
+    .about-card::after { content: ""; position: absolute; width: 420px; height: 420px; right: -100px; top: -170px; border-radius: 50%; background: radial-gradient(circle, rgba(22,119,255,.55), transparent 68%); }
+    .about-card > * { position: relative; z-index: 1; }
+    .about-card h2 { max-width: 630px; }
+    .about-card p { max-width: 770px; margin: 0; color: #c5d0de; font-size: 19px; }
+
+    footer { padding: 64px 0 34px; border-top: 1px solid var(--line); }
+    .footer-top { display: flex; justify-content: space-between; gap: 40px; padding-bottom: 42px; }
+    .footer-note { max-width: 330px; margin: 15px 0 0; color: var(--muted); font-size: 14px; }
+    .footer-links { display: grid; grid-template-columns: repeat(2, minmax(190px, 1fr)); gap: 12px 46px; }
+    .footer-links strong { grid-column: 1 / -1; font-size: 13px; color: #98a2b3; text-transform: uppercase; letter-spacing: .08em; }
+    .footer-links a { color: #475467; font-size: 14px; font-weight: 600; transition: color .2s ease; }
+    .footer-links a:hover { color: var(--blue); }
+    .copyright { display: flex; justify-content: space-between; gap: 20px; padding-top: 28px; border-top: 1px solid var(--line); color: #98a2b3; font-size: 13px; }
+
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 900px) {
+      .section { padding: 80px 0; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .why-grid { grid-template-columns: 1fr; gap: 52px; }
+      .why-visual { order: 2; }
+      .screens-grid { grid-template-columns: repeat(2, 1fr); }
+      .dashboard { grid-template-columns: 140px 1fr; }
+    }
+    @media (max-width: 680px) {
+      .container { width: min(100% - 28px, 1160px); }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .nav-cta { padding: 9px 13px; font-size: 13px; }
+      .hero { padding: 82px 0 76px; }
+      h1 { font-size: clamp(52px, 19vw, 72px); }
+      .hero-subtitle { font-size: 27px; }
+      .hero-description { font-size: 17px; }
+      .actions { flex-direction: column; }
+      .btn { width: 100%; }
+      .hero-preview { margin-top: 52px; padding: 9px; border-radius: 24px; }
+      .dashboard { grid-template-columns: 1fr; min-height: 280px; }
+      .dash-side { display: none; }
+      .dash-main { padding: 22px; }
+      .dash-cards { gap: 8px; }
+      .dash-card { height: 88px; padding: 12px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .feature-card { padding: 24px; }
+      .why-visual { min-height: 420px; padding: 22px 8px; }
+      .phone { width: 215px; min-height: 370px; }
+      .phone-screen { min-height: 342px; }
+      .float-card { padding: 12px; font-size: 11px; }
+      .float-card.one { right: 7px; top: 70px; }
+      .float-card.two { left: 7px; bottom: 45px; }
+      .screens-grid { gap: 14px; }
+      .shot { border-radius: 21px; }
+      .placeholder { padding: 12px; }
+      .placeholder-icon { width: 48px; height: 48px; border-radius: 14px; }
+      .placeholder small { font-size: 10px; }
+      .about-card { padding: 42px 28px; border-radius: 26px; }
+      .about-card p { font-size: 17px; }
+      .footer-top, .copyright { flex-direction: column; }
+      .footer-links { grid-template-columns: 1fr; }
+      .footer-links strong { grid-column: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav-wrap">
+    <nav class="container" aria-label="Navigație principală">
+      <a class="brand" href="#acasa" aria-label="AutoDosar, pagina principală">
+        <span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 16.5V11l2-5h12l2 5v5.5M6.5 16.5h11M7 11h10M6 19v-2.5M18 19v-2.5"/><circle cx="7" cy="14" r="1" fill="currentColor"/><circle cx="17" cy="14" r="1" fill="currentColor"/></svg></span>
+        AutoDosar
+      </a>
+      <div class="nav-links">
+        <a href="#functionalitati">Funcționalități</a>
+        <a href="#capturi">Capturi</a>
+        <a href="#despre">Despre</a>
+        <a class="nav-cta" href="mailto:autodosar.app@gmail.com">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="acasa">
+      <div class="container hero-inner">
+        <span class="eyebrow">Aplicația ta pentru un istoric auto complet</span>
+        <h1>AutoDosar</h1>
+        <p class="hero-subtitle">Istoricul mașinii tale, mereu la zi.</p>
+        <p class="hero-description">AutoDosar te ajută să păstrezi toate informațiile importante despre vehiculul tău într-un singur loc: revizii, alimentări, documente, costuri și istoricul complet al mașinii.</p>
+        <div class="actions">
+          <button class="btn btn-primary" type="button" disabled aria-label="Aplicația va fi disponibilă în curând pe Google Play">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.4a2 2 0 0 0-.6 1.43v16.34c0 .55.22 1.05.58 1.41L12.75 12 3.6 2.4Zm10.1 8.6 2.87-3-9.94-5.63L13.7 11Zm0 2-7.1 8.63 10-5.66L13.7 13Zm4.2-4.25L14.65 12l3.25 3.25 1.82-1.03c1.04-.59 1.04-1.85 0-2.44L17.9 8.75Z"/></svg>
+            În curând pe Google Play
+          </button>
+          <a class="btn" href="politica-de-confidentialitate.html">Politica de confidențialitate</a>
+          <a class="btn" href="termeni-si-conditii.html">Termeni și condiții</a>
+        </div>
+        <div class="hero-preview reveal" aria-label="Previzualizare interfață AutoDosar">
+          <div class="dashboard">
+            <div class="dash-side"><div class="dash-pill active"></div><div class="dash-pill"></div><div class="dash-pill"></div><div class="dash-pill"></div><div class="dash-pill"></div></div>
+            <div class="dash-main">
+              <div class="dash-title"></div>
+              <div class="dash-cards"><div class="dash-card"></div><div class="dash-card"></div><div class="dash-card"></div></div>
+              <div class="dash-chart"><svg viewBox="0 0 600 100" preserveAspectRatio="none"><path d="M0 84 C90 74, 100 42, 180 60 S300 82, 360 38 S500 55, 600 12" fill="none" stroke="#1677ff" stroke-width="3"/><path d="M0 84 C90 74, 100 42, 180 60 S300 82, 360 38 S500 55, 600 12 L600 100 L0 100Z" fill="rgba(22,119,255,.08)"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="functionalitati">
+      <div class="container">
+        <div class="section-head center reveal"><span class="eyebrow">Tot ce ai nevoie</span><h2>Mașina ta, organizată impecabil</h2><p>Instrumente simple și clare pentru fiecare detaliu care contează, de la prima alimentare până la următoarea revizie.</p></div>
+        <div class="features-grid">
+          <article class="feature-card reveal"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a4 4 0 0 0-5 5L3 18l3 3 6.7-6.7a4 4 0 0 0 5-5l-2.4 2.4-3-3 2.4-2.4Z"/></svg></span><h3>Evidență revizii</h3><p>Înregistrează lucrările, piesele schimbate, kilometrajul și următoarea revizie.</p></article>
+          <article class="feature-card reveal"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 22V4a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v18M3 22h15M8 6h5v5H8zM16 7h2l3 3v8a2 2 0 0 1-4 0v-5"/></svg></span><h3>Alimentări și consum</h3><p>Urmărește alimentările, prețul carburanților și consumul real al mașinii.</p></article>
+          <article class="feature-card reveal"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><h3>Costuri complete</h3><p>Vezi cât te costă cu adevărat mașina, centralizat pe categorii și perioade.</p></article>
+          <article class="feature-card reveal"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2h9l4 4v16H6zM14 2v5h5M9 12h7M9 16h7"/></svg></span><h3>Documente</h3><p>Păstrează la îndemână datele pentru ITP, RCA și rovinietă, fără grija termenelor.</p></article>
+          <article class="feature-card reveal"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 19 19 5M7 5h12v12M4 8v11h11"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="5" r="2"/></svg></span><h3>Jurnal drumuri</h3><p>Notează traseele și kilometrii parcurși pentru o evidență completă a utilizării.</p></article>
+          <article class="feature-card reveal"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 2h10l4 4v16H5zM14 2v5h5M8 16h8M8 12h5"/><path d="m14 18 2 2 4-4"/></svg></span><h3>Raport PDF pentru vânzare</h3><p>Generează un istoric profesionist și ușor de prezentat viitorului proprietar.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="avantaje">
+      <div class="container why-grid">
+        <div class="why-visual reveal">
+          <div class="phone"><div class="phone-screen"><div class="phone-bar"></div><div class="phone-car"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 15v-3l2-5h14l2 5v3M5 15h14M6 18v-3M18 18v-3"/><circle cx="7" cy="12" r="1"/><circle cx="17" cy="12" r="1"/></svg></div><div class="phone-row"></div><div class="phone-row"></div><div class="phone-row"></div></div></div>
+          <div class="float-card one">Următoarea revizie<span>în 1.240 km</span></div>
+          <div class="float-card two">Cost luna aceasta<span>684 lei</span></div>
+        </div>
+        <div class="reveal">
+          <span class="eyebrow">De ce AutoDosar</span><h2>Mai mult control. Mai puține griji.</h2><p style="color:var(--muted);font-size:18px">Informația corectă, exact când ai nevoie de ea. AutoDosar transformă administrarea mașinii într-o experiență simplă.</p>
+          <div class="why-list">
+            <div class="why-item"><span class="check"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 8 3 3 7-7"/></svg></span><div><h3>Tot istoricul într-un singur loc</h3><p>Găsești rapid orice informație, fără dosare și notițe pierdute.</p></div></div>
+            <div class="why-item"><span class="check"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 8 3 3 7-7"/></svg></span><div><h3>Notificări pentru documente</h3><p>Știi din timp când expiră ITP-ul, RCA-ul sau rovinieta.</p></div></div>
+            <div class="why-item"><span class="check"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 8 3 3 7-7"/></svg></span><div><h3>Statistici și costuri</h3><p>Înțelegi simplu consumul și cheltuielile reale ale vehiculului.</p></div></div>
+            <div class="why-item"><span class="check"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 8 3 3 7-7"/></svg></span><div><h3>Creat pentru pasionații auto</h3><p>O experiență atent construită pentru oamenii care au grijă de mașina lor.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="capturi">
+      <div class="container">
+        <div class="section-head center reveal"><span class="eyebrow">Aplicația în acțiune</span><h2>Simplă de la prima atingere</h2><p>O interfață modernă care pune informațiile importante în prim-plan.</p></div>
+        <div class="screens-grid">
+          <figure class="shot reveal"><img src="screenshots/screen1.png" alt="Ecran AutoDosar 1" loading="lazy" onerror="this.classList.add('is-missing')"><div class="placeholder"><div><span class="placeholder-icon">01</span><strong>Panou principal</strong><small>screenshots/screen1.png</small></div></div></figure>
+          <figure class="shot reveal"><img src="screenshots/screen2.png" alt="Ecran AutoDosar 2" loading="lazy" onerror="this.classList.add('is-missing')"><div class="placeholder"><div><span class="placeholder-icon">02</span><strong>Istoric revizii</strong><small>screenshots/screen2.png</small></div></div></figure>
+          <figure class="shot reveal"><img src="screenshots/screen3.png" alt="Ecran AutoDosar 3" loading="lazy" onerror="this.classList.add('is-missing')"><div class="placeholder"><div><span class="placeholder-icon">03</span><strong>Alimentări</strong><small>screenshots/screen3.png</small></div></div></figure>
+          <figure class="shot reveal"><img src="screenshots/screen4.png" alt="Ecran AutoDosar 4" loading="lazy" onerror="this.classList.add('is-missing')"><div class="placeholder"><div><span class="placeholder-icon">04</span><strong>Statistici</strong><small>screenshots/screen4.png</small></div></div></figure>
+          <figure class="shot reveal"><img src="screenshots/screen5.png" alt="Ecran AutoDosar 5" loading="lazy" onerror="this.classList.add('is-missing')"><div class="placeholder"><div><span class="placeholder-icon">05</span><strong>Documente</strong><small>screenshots/screen5.png</small></div></div></figure>
+          <figure class="shot reveal"><img src="screenshots/screen6.png" alt="Ecran AutoDosar 6" loading="lazy" onerror="this.classList.add('is-missing')"><div class="placeholder"><div><span class="placeholder-icon">06</span><strong>Raport complet</strong><small>screenshots/screen6.png</small></div></div></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="despre">
+      <div class="container"><div class="about-card reveal"><span class="eyebrow" style="color:#fff;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15)">Dezvoltat în România</span><h2>Grija pentru mașina ta începe cu o evidență bună.</h2><p>AutoDosar este o aplicație românească dezvoltată pentru proprietarii de autovehicule care doresc să își organizeze istoricul mașinii într-un mod simplu și profesionist.</p></div></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div><a class="brand" href="#acasa"><span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 16.5V11l2-5h12l2 5v5.5M6.5 16.5h11M7 11h10"/></svg></span>AutoDosar</a><p class="footer-note">Istoricul mașinii tale, organizat simplu și mereu la îndemână.</p></div>
+        <div class="footer-links"><strong>Informații</strong><a href="politica-de-confidentialitate.html">Politica de confidențialitate</a><a href="termeni-si-conditii.html">Termeni și condiții</a><a href="mailto:autodosar.app@gmail.com">autodosar.app@gmail.com</a></div>
+      </div>
+      <div class="copyright"><span>© 2026 AutoDosar. Toate drepturile rezervate.</span><span>Creat cu grijă pentru șoferii din România.</span></div>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+  </script>
+</body>
+</html>
