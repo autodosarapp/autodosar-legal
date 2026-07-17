@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Adresa de email asociată contului tău AutoDosar a fost confirmată cu succes.">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="Confirmare email | AutoDosar">
+  <meta property="og:description" content="Contul tău AutoDosar a fost confirmat cu succes.">
+  <meta property="og:type" content="website">
+  <title>Confirmare email | AutoDosar</title>
+  <style>
+    :root {
+      --blue: #1677ff;
+      --blue-dark: #0860dc;
+      --blue-soft: #eef6ff;
+      --ink: #111827;
+      --muted: #667085;
+      --line: #e8edf4;
+      --white: #fff;
+      --green: #12b76a;
+      --green-soft: #ecfdf3;
+      --shadow: 0 28px 80px rgba(28, 59, 98, .13);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background: #fff;
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 78% 14%, rgba(22,119,255,.12), transparent 30%),
+        radial-gradient(circle at 14% 28%, rgba(22,119,255,.06), transparent 27%);
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+
+    .nav-wrap {
+      position: relative;
+      z-index: 10;
+      padding: 14px 0;
+      background: rgba(255,255,255,.8);
+      border-bottom: 1px solid rgba(232,237,244,.8);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    nav { display: flex; align-items: center; justify-content: space-between; min-height: 48px; }
+    .brand { display: flex; align-items: center; gap: 11px; font-size: 19px; font-weight: 800; letter-spacing: -.025em; }
+    .logo {
+      display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px;
+      color: #fff; background: linear-gradient(145deg, #2684ff, #0860dc);
+      box-shadow: 0 8px 22px rgba(22,119,255,.24);
+    }
+    .logo svg { width: 22px; height: 22px; }
+    .home-link {
+      display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 16px;
+      color: #344054; background: #fff; border: 1px solid var(--line); border-radius: 12px;
+      font-size: 14px; font-weight: 700; box-shadow: 0 5px 16px rgba(16,24,40,.04);
+      transition: transform .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .home-link:hover { transform: translateY(-2px); color: var(--blue); border-color: #cfe2fb; box-shadow: 0 10px 25px rgba(16,24,40,.08); }
+
+    main { display: grid; place-items: center; min-height: calc(100vh - 278px); padding: 82px 0; }
+    .success-card {
+      position: relative;
+      width: min(720px, 100%);
+      margin-inline: auto;
+      overflow: hidden;
+      padding: 62px 54px 52px;
+      text-align: center;
+      background: rgba(255,255,255,.94);
+      border: 1px solid #e2ebf6;
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      animation: card-in .65s cubic-bezier(.2,.8,.2,1) both;
+    }
+    .success-card::before {
+      content: "";
+      position: absolute;
+      width: 300px; height: 300px;
+      top: -210px; left: 50%;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: rgba(22,119,255,.1);
+    }
+    .success-icon {
+      position: relative;
+      display: grid; place-items: center;
+      width: 84px; height: 84px;
+      margin: 0 auto 30px;
+      color: #fff;
+      background: linear-gradient(145deg, #26c77a, #0e9f5d);
+      border: 8px solid var(--green-soft);
+      border-radius: 50%;
+      box-shadow: 0 14px 34px rgba(18,183,106,.24);
+    }
+    .success-icon svg { width: 38px; height: 38px; animation: check-in .5s .35s ease both; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-bottom: 20px; padding: 7px 12px;
+      color: var(--green); background: var(--green-soft); border: 1px solid #c8f2dc;
+      border-radius: 999px; font-size: 13px; font-weight: 750;
+    }
+    .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(18,183,106,.1); }
+    h1 { margin: 0 0 17px; font-size: clamp(35px, 5vw, 50px); line-height: 1.08; letter-spacing: -.048em; }
+    .message { margin: 0 auto 12px; color: #344054; font-size: 19px; font-weight: 650; }
+    .instruction { max-width: 570px; margin: 0 auto 30px; color: var(--muted); font-size: 16px; }
+    .primary-button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      min-height: 52px; padding: 0 23px;
+      color: #fff; background: var(--blue); border-radius: 14px;
+      font-size: 15px; font-weight: 750;
+      box-shadow: 0 12px 28px rgba(22,119,255,.26);
+      transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+    }
+    .primary-button:hover { transform: translateY(-2px); background: var(--blue-dark); box-shadow: 0 16px 36px rgba(22,119,255,.31); }
+    .secondary { margin: 22px 0 0; color: #7b8798; font-size: 14px; }
+    .help {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin: 32px -54px -52px; padding: 20px;
+      color: var(--muted); background: #f8fbff; border-top: 1px solid #edf2f8;
+      font-size: 13px;
+    }
+    .help a { color: var(--blue); font-weight: 700; }
+    .help a:hover { text-decoration: underline; }
+
+    footer { padding: 44px 0 30px; border-top: 1px solid var(--line); background: rgba(255,255,255,.82); }
+    .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 22px; }
+    .footer-links a { color: #667085; font-size: 13px; font-weight: 600; transition: color .2s ease; }
+    .footer-links a:hover { color: var(--blue); }
+    .copyright { margin: 0; color: #98a2b3; font-size: 13px; }
+
+    @keyframes card-in { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+    @keyframes check-in { from { opacity: 0; transform: scale(.5); } to { opacity: 1; transform: scale(1); } }
+    @media (max-width: 680px) {
+      .container { width: min(100% - 28px, 1160px); }
+      .home-link { padding: 0 12px; }
+      .home-link span { display: none; }
+      main { min-height: auto; padding: 58px 0 68px; }
+      .success-card { padding: 45px 22px 40px; border-radius: 25px; }
+      .success-icon { width: 76px; height: 76px; margin-bottom: 25px; }
+      h1 { font-size: 37px; }
+      .message { font-size: 17px; }
+      .primary-button { width: 100%; }
+      .help { margin: 30px -22px -40px; padding: 18px 14px; flex-wrap: wrap; }
+      .footer-row { align-items: flex-start; flex-direction: column; }
+      .footer-links { justify-content: flex-start; gap: 14px 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav-wrap">
+    <nav class="container" aria-label="Navigație principală">
+      <a class="brand" href="index.html" aria-label="AutoDosar, pagina principală">
+        <span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 16.5V11l2-5h12l2 5v5.5M6.5 16.5h11M7 11h10M6 19v-2.5M18 19v-2.5"/><circle cx="7" cy="14" r="1" fill="currentColor"/><circle cx="17" cy="14" r="1" fill="currentColor"/></svg></span>
+        AutoDosar
+      </a>
+      <a class="home-link" href="index.html"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg><span>Înapoi la pagina principală</span></a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <section class="success-card" aria-labelledby="page-title">
+        <div class="success-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 4.2 4.2L19 6.5"/></svg></div>
+        <span class="eyebrow">Confirmare finalizată</span>
+        <h1 id="page-title">Adresa de email a fost confirmată</h1>
+        <p class="message">Contul tău AutoDosar a fost confirmat cu succes.</p>
+        <p class="instruction">Poți reveni în aplicație și te poți autentifica folosind adresa de email și parola alese.</p>
+        <a class="primary-button" href="https://autodosarapp.github.io/autodosar-legal/">Deschide AutoDosar<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <p class="secondary">Poți închide această pagină și reveni manual în aplicație.</p>
+        <div class="help"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3 2.45c-.5.2-.5.55-.5 1.05M12 16h.01"/></svg>Ai nevoie de ajutor? <a href="mailto:autodosar.app@gmail.com">autodosar.app@gmail.com</a></div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <p class="copyright">© 2026 AutoDosar. Toate drepturile rezervate.</p>
+      <div class="footer-links"><a href="index.html">Acasă</a><a href="privacy.html">Politica de confidențialitate</a><a href="terms.html">Termeni și condiții</a><a href="mailto:autodosar.app@gmail.com">Contact</a></div>
+    </div>
+  </footer>
+</body>
+</html>
